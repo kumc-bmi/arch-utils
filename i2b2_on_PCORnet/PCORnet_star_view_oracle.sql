@@ -1,6 +1,14 @@
 DEFINE source_schema = 'DUAL';
 DEFINE target_schema = 'DUAL';
 
+GRANT SELECT on &source_schema..diagnosis to &target_schema ;
+GRANT SELECT on &source_schema..ENROLLMENT to &target_schema ;
+GRANT SELECT on &source_schema..lab_result_cm to &target_schema ;
+GRANT SELECT on &source_schema..prescribing to &target_schema ;
+GRANT SELECT on &source_schema..procedures to &target_schema ;
+GRANT SELECT on &source_schema..demographic to &target_schema ;
+GRANT SELECT on &source_schema..encounter to &target_schema ;
+
 CREATE OR REPLACE VIEW &target_schema..multifact_diagnosis_view (
   patient_num,
   concept_cd,
