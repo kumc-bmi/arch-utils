@@ -1,5 +1,5 @@
-DEFINE source_schema = 'DUAL';
-DEFINE target_schema = 'DUAL';
+DEFINE source_schema = &1;
+DEFINE target_schema = &2;
 
 GRANT SELECT on &source_schema..diagnosis to &target_schema ;
 GRANT SELECT on &source_schema..ENROLLMENT to &target_schema ;
