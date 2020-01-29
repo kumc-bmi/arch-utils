@@ -9,6 +9,7 @@ GRANT SELECT on &source_schema..prescribing to &target_schema ;
 GRANT SELECT on &source_schema..procedures to &target_schema ;
 GRANT SELECT on &source_schema..demographic to &target_schema ;
 GRANT SELECT on &source_schema..encounter to &target_schema ;
+GRANT SELECT on &source_schema..vital to &target_schema ;
 
 CREATE OR REPLACE VIEW &target_schema..multifact_diagnosis_view (
   patient_num,
@@ -267,6 +268,36 @@ AS SELECT
   cast(null as timestamp),
   cast(null as NUMBER(38,0))
 FROM &source_schema..procedures;
+
+CREATE OR REPLACE VIEW &target_schema..MULTIFACT_VITAL_VIEW (
+  patient_num, concept_cd, encounter_num, instance_num , provider_id, start_date, modifier_cd, observation_blob,
+  valtype_cd, tval_char, nval_num, valueflag_cd, quantity_num, units_cd, end_date, location_cd,
+  confidence_num, sourcesystem_cd, update_date, download_date, import_date, upload_id
+)
+AS SELECT
+  PATID,
+  cast(null as varchar(100)),
+  ENCOUNTERID,
+  1,
+  '@',
+  MEASURE_DATE,
+  '@',
+  cast(null as varchar(100)),
+  cast(null as varchar(100)),
+  cast(null as varchar(100)),
+  cast(null as decimal),
+  cast(null as varchar(100)),
+  cast(null as decimal),
+  cast(null as varchar(100)),
+  MEASURE_TIME,
+  cast(null as varchar(100)),
+  cast(null as decimal),
+  cast(null as varchar(100)),
+  cast(null as timestamp),
+  cast(null as timestamp),
+  cast(null as timestamp),
+  cast(null as NUMBER(38,0))
+FROM &source_schema..vital;
 
 CREATE OR REPLACE VIEW &target_schema..MULTIFACT_PATIENT_DIMENSION_VIEW (
   patient_num,
