@@ -2,14 +2,14 @@ DEFINE source_schema = &1;
 DEFINE target_schema = &2;
 
 -- select grant must be in place for views
-GRANT SELECT on &source_schema..diagnosis to &target_schema ;
-GRANT SELECT on &source_schema..enrollment to &target_schema ;
-GRANT SELECT on &source_schema..lab_result_cm to &target_schema ;
-GRANT SELECT on &source_schema..prescribing to &target_schema ;
-GRANT SELECT on &source_schema..procedures to &target_schema ;
-GRANT SELECT on &source_schema..demographic to &target_schema ;
-GRANT SELECT on &source_schema..encounter to &target_schema ;
-GRANT SELECT on &source_schema..vital to &target_schema ;
+--GRANT SELECT on &source_schema..diagnosis to &target_schema ;
+--GRANT SELECT on &source_schema..enrollment to &target_schema ;
+--GRANT SELECT on &source_schema..lab_result_cm to &target_schema ;
+--GRANT SELECT on &source_schema..prescribing to &target_schema ;
+--GRANT SELECT on &source_schema..procedures to &target_schema ;
+--GRANT SELECT on &source_schema..demographic to &target_schema ;
+--GRANT SELECT on &source_schema..encounter to &target_schema ;
+--GRANT SELECT on &source_schema..vital to &target_schema ;
 
 CREATE OR REPLACE VIEW &target_schema..multifact_diagnosis_view (
   patient_num,
