@@ -1,6 +1,8 @@
 DEFINE source_schema = &1;
 DEFINE target_schema = &2;
 
+whenever sqlerror exit;
+
 -- select grant must be in place for views
 --GRANT SELECT on &source_schema..diagnosis to &target_schema ;
 --GRANT SELECT on &source_schema..enrollment to &target_schema ;

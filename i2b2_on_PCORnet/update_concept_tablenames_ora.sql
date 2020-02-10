@@ -1,5 +1,7 @@
 DEFINE i2b2_metadata = &1;
 
+whenever sqlerror exit;
+
 -- &i2b2_metadata `C_TABLENAME`s need to point at tables in &i2b2_data
 UPDATE &i2b2_metadata..PCORNET_DEMO
   set C_TABLENAME = 'MULTIFACT_PATIENT_DIMENSION_VIEW'

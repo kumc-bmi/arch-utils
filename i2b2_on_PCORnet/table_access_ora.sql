@@ -1,8 +1,11 @@
 DEFINE i2b2_metadata = &1;
 
+whenever sqlerror continue;
 DELETE from &i2b2_metadata..TABLE_ACCESS where c_table_cd like 'PCORNET_%' ;
 
 -- for each PCORNET_*** ontology table, insert a record into TABLE_ACCESS
+
+whenever sqlerror exit;
 INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   C_TABLE_CD,
   C_TABLE_NAME,
