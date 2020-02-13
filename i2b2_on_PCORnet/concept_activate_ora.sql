@@ -1,6 +1,16 @@
 DEFINE i2b2_metadata = &1;
 DEFINE i2b2_data = &2;
 
+-- intended to run as data user:
+-- grant select on &i2b2_metadata..PCORNET_DIAG to &i2b2_data ;
+-- grant select on &i2b2_metadata..PCORNET_DEMO to &i2b2_data ;
+-- grant select on &i2b2_metadata..PCORNET_MED to &i2b2_data ;
+-- grant select on &i2b2_metadata..PCORNET_PROC to &i2b2_data ;
+-- grant select on &i2b2_metadata..PCORNET_VITAL to &i2b2_data ;
+-- grant select on &i2b2_metadata..PCORNET_LAB to &i2b2_data ;
+-- grant select on &i2b2_metadata..PCORNET_ENC to &i2b2_data ;
+-- grant select on &i2b2_metadata..PCORNET_ENROLL to &i2b2_data ;
+
 -- activate concepts
 insert into &i2b2_data..CONCEPT_DIMENSION(
   concept_cd,
