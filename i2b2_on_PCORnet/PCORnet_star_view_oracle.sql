@@ -273,9 +273,28 @@ AS SELECT
 FROM &source_schema..procedures;
 
 CREATE OR REPLACE VIEW &target_schema..MULTIFACT_VITAL_VIEW (
-  patient_num, concept_cd, encounter_num, instance_num , provider_id, start_date, modifier_cd, observation_blob,
-  valtype_cd, tval_char, nval_num, valueflag_cd, quantity_num, units_cd, end_date, location_cd,
-  confidence_num, sourcesystem_cd, update_date, download_date, import_date, upload_id
+  patient_num,
+  concept_cd,
+  encounter_num,
+  instance_num,
+  provider_id,
+  start_date,
+  modifier_cd,
+  observation_blob,
+  valtype_cd,
+  tval_char,
+  nval_num,
+  valueflag_cd,
+  quantity_num,
+  units_cd,
+  end_date,
+  location_cd,
+  confidence_num,
+  sourcesystem_cd,
+  update_date,
+  download_date,
+  import_date,
+  upload_id
 )
 AS SELECT
   PATID,
