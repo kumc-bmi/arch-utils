@@ -3,7 +3,8 @@ DEFINE target_schema = &2;
 
 whenever sqlerror exit sql.sqlcode;
 
--- select grant must be in place for views
+-- create view select grant must be in place
+--grant create view to &target_schema ;
 --GRANT SELECT on &source_schema..diagnosis to &target_schema ;
 --GRANT SELECT on &source_schema..enrollment to &target_schema ;
 --GRANT SELECT on &source_schema..lab_result_cm to &target_schema ;
