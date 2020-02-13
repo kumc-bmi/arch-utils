@@ -1,0 +1,179 @@
+/*
+  requires the following environment variables:
+  - sid
+  - PCORNET_CDM_PASS
+  - I2B2_DATA_USER
+     - likely pcornetdata.  where i2b2 crc will be built
+  - I2B2_DATA_PASS
+  - I2B2_METADATA_USER
+     - likely pcornetmetadata.  where i2b2 metadata will be built and altered
+  - I2B2_METADATA_PASS
+  - PCORNET_CDM_DATASOURCE
+     - schema star views will target
+  - FULL_BUILD
+     - true/false truncate and build i2b2 tables, ontology
+*/ 
+
+pipeline {
+  agent {
+    label '4d19b905d9d8fb4ba7c7e531b8bf198e'
+  }
+
+  stages {
+    stage('cleanup') {
+      when {
+        environment name: 'FULL_BUILD', value: 'true'
+      }
+      steps {
+        cleanWs()
+        git branch: 'master',
+          url: 'https://github.com/kumc-bmi/arch-utils.git'
+        sh '''
+          set +x
+          export ORACLE_HOME="/u01/oracle/product/12.1.0"
+          export PATH="$PATH:${ORACLE_HOME}/bin"
+          export ORACLE_SID="$sid"
+          sqlplus ${I2B2_METADATA_USER}/${I2B2_METADATA_PASS} @i2b2_on_PCORnet/truncate_metadata_ora.sql "$I2B2_METADATA_USER"
+        '''
+      }
+    }
+
+    stage('checkout i2b2-data') {
+      when {
+        environment name: 'FULL_BUILD', value: 'true'
+      }
+      steps {
+        cleanWs()
+        // extended syntax used in order to specify timout for large repo
+        checkout([
+          $class: 'GitSCM',
+          branches: [[name: '*/master']],
+          doGenerateSubmoduleConfigurations: false,
+          extensions: [[$class: 'CloneOption', timeout: 60]],
+          submoduleCfg: [],
+          userRemoteConfigs: [[url: 'https://github.com/i2b2/i2b2-data.git']]
+        ])
+      }
+    }
+
+    stage('parallel create i2b2 schemas from source') {
+      when {
+        environment name: 'FULL_BUILD', value: 'true'
+      }
+      steps {
+        parallel(
+          a: {
+            sh '''
+              cat > ./edu.harvard.i2b2.data/Release_1-7/NewInstall/Crcdata/db.properties << EOF
+db.type=oracle
+db.username=${I2B2_DATA_USER}
+db.password=${I2B2_DATA_PASS}
+db.server=localhost:1521:${sid}
+db.driver=oracle.jdbc.driver.OracleDriver
+db.url=jdbc:oracle:thin:@localhost:1521:${sid}
+db.project=demo
+EOF
+              cd ./edu.harvard.i2b2.data/Release_1-7/NewInstall/Crcdata
+              ant -f data_build.xml create_crcdata_tables_release_1-7
+              ant -f data_build.xml create_procedures_release_1-7
+              ant -f data_build.xml db_demodata_load_data
+            '''
+          },
+          b: {
+            sh '''
+              cat > ./edu.harvard.i2b2.data/Release_1-7/NewInstall/Metadata/db.properties << EOF
+db.type=oracle
+db.username=${I2B2_METADATA_USER}
+db.password=${I2B2_METADATA_PASS}
+db.server=localhost:1521:${sid}
+db.driver=oracle.jdbc.driver.OracleDriver
+db.url=jdbc:oracle:thin:@localhost:1521:${sid}
+db.project=demo
+db.dimension=OBSERVATION_FACT
+db.schemaname=${I2B2_METADATA_USER}
+EOF
+              cd ./edu.harvard.i2b2.data/Release_1-7/NewInstall/Metadata
+              ant -f data_build.xml create_metadata_tables_release_1-7
+              ant -f data_build.xml db_metadata_load_data
+            '''
+          }
+        )
+      }
+    }
+
+    stage('truncate and build scilhs-ontology') {
+      when {
+        environment name: 'FULL_BUILD', value: 'true'
+      }
+      steps {
+        git branch: 'master',
+          url: 'https://github.com/kumc-bmi/scilhs-ontology.git'
+        sh '''
+          # the existing script here expected some tacky variables..
+          export ontology_tables="ontology_tables.txt"
+          export drop_ontology_tables="drop_ontology_tables.sql"
+          export create_oracle_metadata_tables="create_oracle_metadata_tables.sql"
+          export pcornet_cdm_user="pcornet_cdm"
+          export pcornet_cdm_pass="$PCORNET_CDM_PASS"
+          export i2b2_meta_schema="$I2B2_METADATA_USER"
+          export ORACLE_HOME="/u01/oracle/product/12.1.0"
+          export PATH="$PATH:${ORACLE_HOME}/bin"
+          export ORACLE_SID="$sid"
+          cd Release/Oracle
+          bash ./load_scilhs_ontology.sh
+        '''
+      }
+    }
+
+    stage('create star-schema views') {
+      steps {
+        cleanWs()
+        git branch: 'master',
+          url: 'https://github.com/kumc-bmi/arch-utils.git'
+        sh '''
+          set +x
+          export ORACLE_HOME="/u01/oracle/product/12.1.0"
+          export PATH="$PATH:${ORACLE_HOME}/bin"
+          export ORACLE_SID="$sid"
+          sqlplus ${I2B2_DATA_USER}/${I2B2_DATA_PASS} @i2b2_on_PCORnet/PCORnet_star_view_oracle.sql "$PCORNET_CDM_DATASOURCE" "$I2B2_DATA_USER"
+        '''
+      }
+    }
+
+    stage("add PCORI ontology to TABLE_ACCESS") {
+      steps {
+        sh '''
+          set +x
+          export ORACLE_HOME="/u01/oracle/product/12.1.0"
+          export PATH="$PATH:${ORACLE_HOME}/bin"
+          export ORACLE_SID="$sid"
+          sqlplus ${I2B2_METADATA_USER}/${I2B2_METADATA_PASS} @i2b2_on_PCORnet/table_access_ora.sql "$I2B2_METADATA_USER"
+        '''
+      }
+    }
+
+    stage("point c_tablenames to views") {
+      steps {
+        sh '''
+          set +x
+          export ORACLE_HOME="/u01/oracle/product/12.1.0"
+          export PATH="$PATH:${ORACLE_HOME}/bin"
+          export ORACLE_SID="$sid"
+          sqlplus ${I2B2_METADATA_USER}/${I2B2_METADATA_PASS} @i2b2_on_PCORnet/update_concept_tablenames_ora.sql "$I2B2_METADATA_USER"
+        '''
+      }
+    }
+
+    stage("activate PCORnet CDM project") {
+      steps {
+        sh '''
+          set +x
+          export ORACLE_HOME="/u01/oracle/product/12.1.0"
+          export PATH="$PATH:${ORACLE_HOME}/bin"
+          export ORACLE_SID="$sid"
+          sqlplus ${I2B2_METADATA_USER}/${I2B2_METADATA_PASS} @i2b2_on_PCORnet/activate_project_ora.sql "$I2B2_METADATA_USER"
+        '''
+      }
+    }
+  }
+}
