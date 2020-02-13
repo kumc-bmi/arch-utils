@@ -6,7 +6,7 @@ delete from &pm_schema..pm_project_data where
   project_id = 'pcornet_cdm'
 ;
 
-whenever sqlerror exit;
+whenever sqlerror exit sql.sqlcode;
 insert into &pm_schema..pm_project_data (
   project_id,
   project_name,
@@ -28,7 +28,7 @@ delete from &hive_schema..crc_db_lookup where
   c_project_path = '/PCORI/'
 ;
 
-whenever sqlerror exit;
+whenever sqlerror exit sql.sqlcode;
 insert into &hive_schema..crc_db_lookup (
   c_domain_id,
   c_project_path,

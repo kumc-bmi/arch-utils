@@ -1,5 +1,7 @@
 DEFINE metadata_schema = 'DUAL' ;
 
+whenever sqlerror exit sql.sqlcode;
+
 update &metadata_schema..pcornet_proc
   set c_facttablecolumn='MULTIFACT_PROCEDURE_VIEW.'||c_facttablecolumn ;
 update &metadata_schema..pcornet_diag

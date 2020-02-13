@@ -1,6 +1,6 @@
 DEFINE i2b2_metadata = &1;
 
-whenever sqlerror exit;
+whenever sqlerror exit sql.sqlcode;
 
 -- &i2b2_metadata `C_TABLENAME`s need to point at tables in &i2b2_data
 UPDATE &i2b2_metadata..PCORNET_DEMO
