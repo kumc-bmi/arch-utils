@@ -302,7 +302,7 @@ AS SELECT
   cast(null as NUMBER(38,0))
 FROM &source_schema..vital;
 
-CREATE OR REPLACE VIEW &target_schema..MULTIFACT_PATIENT_DIMENSION_VIEW (
+CREATE OR REPLACE VIEW &target_schema..MULTIFACT_PAT_DIMENSION_VIEW (
   patient_num,
   vital_status_cd,
   birth_date,
