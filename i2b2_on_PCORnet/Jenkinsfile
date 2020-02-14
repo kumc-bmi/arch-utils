@@ -71,6 +71,8 @@ pipeline {
         parallel(
           a: {
             sh '''
+              # grant create sequence to ${I2B2_DATA_USER}
+              # grant create type to ${I2B2_DATA_USER}
               cat > ./edu.harvard.i2b2.data/Release_1-7/NewInstall/Crcdata/db.properties << EOF
 db.type=oracle
 db.username=${I2B2_DATA_USER}
