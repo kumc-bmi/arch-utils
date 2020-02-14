@@ -121,7 +121,7 @@ EOF
           export drop_ontology_tables="drop_ontology_tables.sql"
           export create_oracle_metadata_tables="create_oracle_metadata_tables.sql"
           export pcornet_cdm_user="pcornet_cdm"
-          export pcornet_cdm_pass="$PCORNET_CDM_PASS"
+          export pcornet_cdm="$PCORNET_CDM_PASS"
           export i2b2_meta_schema="$I2B2_METADATA_USER"
           export ORACLE_HOME="/u01/oracle/product/12.1.0"
           export PATH="$PATH:${ORACLE_HOME}/bin"
