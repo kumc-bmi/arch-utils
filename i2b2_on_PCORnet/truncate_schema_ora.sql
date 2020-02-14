@@ -25,5 +25,11 @@ begin
       execute immediate ( 'drop procedure ' ||myprocedures.object_name );
     end;
   end loop;
+
+  for mysequences in ( select sequence_name from user_sequences ) loop
+    begin
+      execute immediate ( 'drop sequence ' ||mysequences.sequence_name );
+    end;
+  end loop;
 end;
 /
