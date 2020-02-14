@@ -20,7 +20,7 @@ pipeline {
   }
 
   stages {
-    stage('cleanup') {
+    stage('truncate I2B2_DATA and I2B2_METADATA schemas') {
       when {
         environment name: 'FULL_BUILD', value: 'true'
       }
@@ -33,7 +33,14 @@ pipeline {
           export ORACLE_HOME="/u01/oracle/product/12.1.0"
           export PATH="$PATH:${ORACLE_HOME}/bin"
           export ORACLE_SID="$sid"
-          sqlplus ${I2B2_METADATA_USER}/${I2B2_METADATA_PASS} @i2b2_on_PCORnet/truncate_metadata_ora.sql
+          sqlplus ${I2B2_METADATA_USER}/${I2B2_METADATA_PASS} @i2b2_on_PCORnet/truncate_schema_ora.sql
+        '''
+        sh '''
+          set +x
+          export ORACLE_HOME="/u01/oracle/product/12.1.0"
+          export PATH="$PATH:${ORACLE_HOME}/bin"
+          export ORACLE_SID="$sid"
+          sqlplus ${I2B2_DATA_USER}/${I2B2_DATA_PASS} @i2b2_on_PCORnet/truncate_schema_ora.sql
         '''
       }
     }
