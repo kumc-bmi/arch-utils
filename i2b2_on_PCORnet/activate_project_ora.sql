@@ -3,7 +3,7 @@ DEFINE hive_schema = &2;
 
 whenever sqlerror continue;
 delete from &pm_schema..pm_project_data where
-  project_id = 'pcornet_cdm'
+  project_id = 'PCORI'
 ;
 
 whenever sqlerror exit sql.sqlcode;
@@ -14,14 +14,14 @@ insert into &pm_schema..pm_project_data (
   project_path,
   status_cd
 ) values (
-  'pcornet_cdm',
+  'PCORI',
   'PCORnet CDM',
   'http://informatics.kumc.edu/',
   '/PCORI', -- not a typo
   'A'
 );
 
---
+-- point crc at PCORIDATA
 
 whenever sqlerror continue;
 delete from &hive_schema..crc_db_lookup where
