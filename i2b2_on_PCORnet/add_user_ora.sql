@@ -42,3 +42,27 @@ insert into &pm_schema..pm_project_user_roles (
   'DATA_DEID',
   'A'
 );
+
+insert into &pm_schema..pm_project_user_roles (
+  project_id,
+  user_id,
+  user_role_cd,
+  status_cd
+) values (
+  'PCORI',
+  '&user_id',
+  'DATA_LDS',
+  'A'
+);
+
+insert into &pm_schema..pm_project_user_roles (
+  project_id,
+  user_id,
+  user_role_cd,
+  status_cd
+) values (
+  'PCORI',
+  '&user_id',
+  'DATA_OBFSC',
+  'A'
+);
