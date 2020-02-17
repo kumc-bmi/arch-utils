@@ -1,8 +1,6 @@
 DEFINE source_schema = &1;
 DEFINE target_schema = &2;
 
-whenever sqlerror exit sql.sqlcode;
-
 -- create view select grant must be in place
 --grant create view to &target_schema ;
 --GRANT SELECT on &source_schema..diagnosis to &target_schema ;
@@ -13,6 +11,12 @@ whenever sqlerror exit sql.sqlcode;
 --GRANT SELECT on &source_schema..demographic to &target_schema ;
 --GRANT SELECT on &source_schema..encounter to &target_schema ;
 --GRANT SELECT on &source_schema..vital to &target_schema ;
+
+-- drop existing objects
+whenever sqlerror continue;
+drop table &target_schema..PATIENT_DIMENSION;
+drop table &target_schema..VISIT_DIMENSION;
+whenever sqlerror exit sql.sqlcode;
 
 CREATE OR REPLACE VIEW &target_schema..multifact_diagnosis_view (
   patient_num,
