@@ -1,4 +1,4 @@
-DEFINE metadata_schema = 'DUAL' ;
+DEFINE metadata_schema = &1;
 
 whenever sqlerror exit sql.sqlcode;
 
