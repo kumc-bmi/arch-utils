@@ -136,9 +136,10 @@ EOF
       when {
         environment name: 'FULL_BUILD', value: 'true'
       }
-      git branch: 'master',
-          url: 'https://github.com/kumc-bmi/arch-utils.git'
       steps {
+        cleanWs()
+        git branch: 'master',
+          url: 'https://github.com/kumc-bmi/arch-utils.git'
         sh '''
           set +x
           export ORACLE_HOME="/u01/oracle/product/12.1.0"
