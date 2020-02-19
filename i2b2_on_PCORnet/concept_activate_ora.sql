@@ -29,7 +29,7 @@ select distinct
   download_date,
   sysdate,
   sourcesystem_cd
-from ( select * from &i2b2_metadata..PCORNET_DEMO  ) ib
+from (select * from &i2b2_metadata..PCORNET_DEMO) ib
 where ib.c_basecode is not null
   and ib.c_dimcode is not null
 group by ib.c_basecode,
@@ -57,12 +57,15 @@ select distinct
   download_date,
   sysdate,
   sourcesystem_cd
-from (select * from
-&i2b2_metadata..PCORNET_DIAG
-) ib
+from (select * from &i2b2_metadata..PCORNET_DIAG) ib
 where ib.c_basecode is not null
-group by ib.c_basecode, ib.c_dimcode
-     , update_date, download_date, sysdate, sourcesystem_cd
+group by
+  ib.c_basecode,
+  ib.c_dimcode,
+  update_date,
+  download_date,
+  sysdate,
+  sourcesystem_cd
 ;
 
 insert into &i2b2_data..CONCEPT_DIMENSION(
@@ -82,12 +85,15 @@ select distinct
   download_date,
   sysdate,
   sourcesystem_cd
-from (select * from
-&i2b2_metadata..PCORNET_MED
-) ib
+from (select * from &i2b2_metadata..PCORNET_MED) ib
 where ib.c_basecode is not null
-group by ib.c_basecode, ib.c_dimcode
-     , update_date, download_date, sysdate, sourcesystem_cd
+group by
+  ib.c_basecode,
+  ib.c_dimcode,
+  update_date,
+  download_date,
+  sysdate,
+  sourcesystem_cd
 ;
 
 insert into &i2b2_data..CONCEPT_DIMENSION(
@@ -107,12 +113,15 @@ select distinct
   download_date,
   sysdate,
   sourcesystem_cd
-from (select * from
-&i2b2_metadata..PCORNET_PROC
-) ib
+from (select * from &i2b2_metadata..PCORNET_PROC) ib
 where ib.c_basecode is not null
-group by ib.c_basecode, ib.c_dimcode
-     , update_date, download_date, sysdate, sourcesystem_cd
+group by
+  ib.c_basecode,
+  ib.c_dimcode,
+  update_date,
+  download_date,
+  sysdate,
+  sourcesystem_cd
 ;
 
 insert into &i2b2_data..CONCEPT_DIMENSION(
@@ -132,12 +141,15 @@ select distinct
   download_date,
   sysdate,
   sourcesystem_cd
-from (select * from
-&i2b2_metadata..PCORNET_VITAL
-) ib
+from (select * from &i2b2_metadata..PCORNET_VITAL) ib
 where ib.c_basecode is not null
-group by ib.c_basecode, ib.c_dimcode
-     , update_date, download_date, sysdate, sourcesystem_cd
+group by
+  ib.c_basecode,
+  ib.c_dimcode,
+  update_date,
+  download_date,
+  sysdate,
+  sourcesystem_cd
 ;
 
 -- PK conflict
@@ -158,12 +170,15 @@ select distinct
   download_date, 
   sysdate, 
   sourcesystem_cd
-from (select * from 
-&i2b2_metadata..PCORNET_LAB
-) ib
+from (select * from &i2b2_metadata..PCORNET_LAB) ib
 where ib.c_basecode is not null
-group by ib.c_basecode, ib.c_dimcode
-     , update_date, download_date, sysdate, sourcesystem_cd
+group by
+  ib.c_basecode,
+  ib.c_dimcode,
+  update_date,
+  download_date,
+  sysdate,
+  sourcesystem_cd
 ;
 
 -- PK conflict
@@ -184,12 +199,15 @@ select distinct
   download_date,
   sysdate,
   sourcesystem_cd
-from (select * from
-&i2b2_metadata..PCORNET_ENC
-) ib
+from ( select * from &i2b2_metadata..PCORNET_ENC ) ib
 where ib.c_basecode is not null
-group by ib.c_basecode, ib.c_dimcode
-     , update_date, download_date, sysdate, sourcesystem_cd
+group by
+  ib.c_basecode,
+  ib.c_fullname,
+  update_date,
+  download_date,
+  sysdate,
+  sourcesystem_cd
 ;
 
 -- PK conflict
@@ -210,10 +228,13 @@ select distinct
   download_date,
   sysdate,
   sourcesystem_cd
-from (select * from
-&i2b2_metadata..PCORNET_ENROLL
-) ib
+from ( select * from &i2b2_metadata..PCORNET_ENROLL ) ib
 where ib.c_basecode is not null
-group by ib.c_basecode, ib.c_dimcode
-     , update_date, download_date, sysdate, sourcesystem_cd
+group by
+  ib.c_basecode,
+  ib.c_fullname,
+  update_date,
+  download_date,
+  sysdate,
+  sourcesystem_cd
 ;
