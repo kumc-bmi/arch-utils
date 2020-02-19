@@ -1,6 +1,9 @@
 DEFINE i2b2_metadata = &1;
 DEFINE i2b2_data = &2;
 
+whenever sqlerror exit sql.sqlcode;
+delete from PCORIDATA.concept_dimension;
+
 -- intended to run as data user:
 -- grant select on &i2b2_metadata..PCORNET_DIAG to &i2b2_data ;
 -- grant select on &i2b2_metadata..PCORNET_DEMO to &i2b2_data ;
