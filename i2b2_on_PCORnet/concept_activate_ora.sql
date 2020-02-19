@@ -118,6 +118,7 @@ select distinct
   sourcesystem_cd
 from (select * from &i2b2_metadata..PCORNET_PROC) ib
 where ib.c_basecode is not null
+and ib.c_dimcode not in (select concept_path from &i2b2_data..CONCEPT_DIMENSION)
 group by
   ib.c_basecode,
   ib.c_dimcode,
