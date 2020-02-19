@@ -132,6 +132,23 @@ EOF
       }
     }
 
+    stage("patch ontology") {
+      when {
+        environment name: 'FULL_BUILD', value: 'true'
+      }
+      git branch: 'master',
+          url: 'https://github.com/kumc-bmi/arch-utils.git'
+      steps {
+        sh '''
+          set +x
+          export ORACLE_HOME="/u01/oracle/product/12.1.0"
+          export PATH="$PATH:${ORACLE_HOME}/bin"
+          export ORACLE_SID="$sid"
+          sqlplus ${I2B2_METADATA_USER}/${I2B2_METADATA_PASS} @i2b2_on_PCORnet/PCORnet_ont_update_oracle.sql "$I2B2_METADATA_USER"
+        '''
+      }
+    }
+
     stage('create star-schema views') {
       steps {
         cleanWs()
@@ -167,18 +184,6 @@ EOF
           export PATH="$PATH:${ORACLE_HOME}/bin"
           export ORACLE_SID="$sid"
           sqlplus ${I2B2_METADATA_USER}/${I2B2_METADATA_PASS} @i2b2_on_PCORnet/update_concept_tablenames_ora.sql "$I2B2_METADATA_USER"
-        '''
-      }
-    }
-
-    stage("patch ontology") {
-      steps {
-        sh '''
-          set +x
-          export ORACLE_HOME="/u01/oracle/product/12.1.0"
-          export PATH="$PATH:${ORACLE_HOME}/bin"
-          export ORACLE_SID="$sid"
-          sqlplus ${I2B2_METADATA_USER}/${I2B2_METADATA_PASS} @i2b2_on_PCORnet/PCORnet_ont_update_oracle.sql "$I2B2_METADATA_USER"
         '''
       }
     }
