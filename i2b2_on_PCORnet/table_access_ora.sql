@@ -27,7 +27,7 @@ INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   'PCORNET_DIAG',
   'N',
   '0',
-  '\PCORI\DIAGNOSIS',
+  '\PCORI\DIAGNOSIS\',
   'PCORnet CDM Diagnoses',
   'N',
   'FA ',
@@ -36,7 +36,7 @@ INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   'concept_path',
   'T',
   'like',
-  '\PCORI\',
+  '\PCORI\DIAGNOSIS\',
   'TODO'
 );
 
@@ -61,7 +61,7 @@ INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   'PCORNET_DEMO',
   'N',
   '0',
-  '\PCORI\DEMOGRAPHIC',
+  '\PCORI\DEMOGRAPHIC\',
   'PCORnet CDM Demographics',
   'N',
   'FA ',
@@ -70,7 +70,7 @@ INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   'concept_path',
   'T',
   'like',
-  '\PCORI\',
+  '\PCORI\DEMOGRAPHIC\',
   'TODO'
 );
 
@@ -95,7 +95,7 @@ INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   'PCORNET_ENC',
   'N',
   '0',
-  '\PCORI\ENCOUNTER',
+  '\PCORI\ENCOUNTER\',
   'PCORnet CDM Encounters',
   'N',
   'FA ',
@@ -104,7 +104,7 @@ INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   'concept_path',
   'T',
   'like',
-  '\PCORI\',
+  '\PCORI\ENCOUNTER\',
   'TODO'
 );
 
@@ -129,7 +129,7 @@ INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   'PCORNET_ENROLL',
   'N',
   '0',
-  '\PCORI\ENROLLMENT',
+  '\PCORI\ENROLLMENT\',
   'PCORnet CDM Enrollments',
   'N',
   'FA ',
@@ -138,7 +138,7 @@ INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   'concept_path',
   'T',
   'like',
-  '\PCORI\',
+  '\PCORI\ENROLLMENT\',
   'TODO'
 );
 
@@ -163,7 +163,7 @@ INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   'PCORNET_LAB',
   'N',
   '0',
-  '\PCORI\LAB_RESULT_CM',
+  '\PCORI\LAB_RESULT_CM\',
   'PCORnet CDM Lab Results',
   'N',
   'FA ',
@@ -172,7 +172,7 @@ INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   'concept_path',
   'T',
   'like',
-  '\PCORI\',
+  '\PCORI\LAB_RESULT_CM\',
   'TODO'
 );
 
@@ -197,7 +197,7 @@ INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   'PCORNET_MED',
   'N',
   '0',
-  '\PCORI\MEDICATION',
+  '\PCORI\MEDICATION\',
   'PCORnet CDM Medications',
   'N',
   'FA ',
@@ -206,7 +206,7 @@ INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   'concept_path',
   'T',
   'like',
-  '\PCORI\',
+  '\PCORI\MEDICATION\',
   'TODO'
 );
 
@@ -231,7 +231,7 @@ INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   'PCORNET_PROC',
   'N',
   '0',
-  '\PCORI\PROCEDURE',
+  '\PCORI\PROCEDURE\',
   'PCORnet CDM Procedures',
   'N',
   'FA ',
@@ -240,7 +240,7 @@ INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   'concept_path',
   'T',
   'like',
-  '\PCORI\',
+  '\PCORI\PROCEDURE\',
   'TODO'
 );
 
@@ -265,7 +265,7 @@ INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   'PCORNET_VITAL',
   'N',
   '0',
-  '\PCORI\VITAL',
+  '\PCORI\VITAL\',
   'PCORnet CDM Vitals',
   'N',
   'FA ',
@@ -274,6 +274,6 @@ INSERT INTO &i2b2_metadata..TABLE_ACCESS (
   'concept_path',
   'T',
   'like',
-  '\PCORI\',
+  '\PCORI\VITAL\',
   'TODO'
 );
