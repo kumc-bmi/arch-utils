@@ -195,5 +195,18 @@ EOF
         '''
       }
     }
+
+    stage("activate concepts") {
+      steps {
+        sh '''
+          set +x
+          export ORACLE_HOME="/u01/oracle/product/12.1.0"
+          export PATH="$PATH:${ORACLE_HOME}/bin"
+          export ORACLE_SID="$sid"
+          sqlplus ${I2B2_DATA_USER}/${I2B2_DATA_PASS} @i2b2_on_PCORnet/concept_activate_ora.sql "$I2B2_DATA_USER"
+        '''
+      }
+    }
+
   }
 }
