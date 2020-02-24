@@ -2,6 +2,8 @@
   requires the following environment variables:
   - sid
   - PCORNET_CDM_PASS
+  - I2B2_PM_USER
+  - I2B2_PM_PASS
   - I2B2_DATA_USER
      - likely pcornetdata.  where i2b2 crc will be built
   - I2B2_DATA_PASS
