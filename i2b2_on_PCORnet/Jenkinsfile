@@ -132,6 +132,7 @@ EOF
       }
     }
 
+    // "patch ontology" is in full_build because this sql is not idempotent
     stage("patch ontology") {
       when {
         environment name: 'FULL_BUILD', value: 'true'
