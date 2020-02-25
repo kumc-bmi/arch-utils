@@ -1,6 +1,7 @@
 /*
   requires the following environment variables:
   - sid
+  - ORACLE_HOME
   - PCORNET_CDM_PASS
   - I2B2_PM_USER
   - I2B2_PM_PASS
@@ -32,14 +33,12 @@ pipeline {
           url: 'https://github.com/kumc-bmi/arch-utils.git'
         sh '''
           set +x
-          export ORACLE_HOME="/u01/oracle/product/12.1.0"
           export PATH="$PATH:${ORACLE_HOME}/bin"
           export ORACLE_SID="$sid"
           sqlplus ${I2B2_METADATA_USER}/${I2B2_METADATA_PASS} @i2b2_on_PCORnet/truncate_schema_ora.sql
         '''
         sh '''
           set +x
-          export ORACLE_HOME="/u01/oracle/product/12.1.0"
           export PATH="$PATH:${ORACLE_HOME}/bin"
           export ORACLE_SID="$sid"
           sqlplus ${I2B2_DATA_USER}/${I2B2_DATA_PASS} @i2b2_on_PCORnet/truncate_schema_ora.sql
@@ -125,7 +124,6 @@ EOF
           export pcornet_cdm_user="pcornet_cdm"
           export pcornet_cdm="$PCORNET_CDM_PASS"
           export i2b2_meta_schema="$I2B2_METADATA_USER"
-          export ORACLE_HOME="/u01/oracle/product/12.1.0"
           export PATH="$PATH:${ORACLE_HOME}/bin"
           export ORACLE_SID="$sid"
           cd Release/Oracle
@@ -145,7 +143,6 @@ EOF
           url: 'https://github.com/kumc-bmi/arch-utils.git'
         sh '''
           set +x
-          export ORACLE_HOME="/u01/oracle/product/12.1.0"
           export PATH="$PATH:${ORACLE_HOME}/bin"
           export ORACLE_SID="$sid"
           sqlplus ${I2B2_METADATA_USER}/${I2B2_METADATA_PASS} @i2b2_on_PCORnet/PCORnet_ont_update_oracle.sql "$I2B2_METADATA_USER"
@@ -160,7 +157,6 @@ EOF
           url: 'https://github.com/kumc-bmi/arch-utils.git'
         sh '''
           set +x
-          export ORACLE_HOME="/u01/oracle/product/12.1.0"
           export PATH="$PATH:${ORACLE_HOME}/bin"
           export ORACLE_SID="$sid"
           sqlplus ${I2B2_DATA_USER}/${I2B2_DATA_PASS} @i2b2_on_PCORnet/PCORnet_star_view_oracle.sql "$PCORNET_CDM_DATASOURCE" "$I2B2_DATA_USER"
@@ -172,7 +168,6 @@ EOF
       steps {
         sh '''
           set +x
-          export ORACLE_HOME="/u01/oracle/product/12.1.0"
           export PATH="$PATH:${ORACLE_HOME}/bin"
           export ORACLE_SID="$sid"
           sqlplus ${I2B2_METADATA_USER}/${I2B2_METADATA_PASS} @i2b2_on_PCORnet/table_access_ora.sql "$I2B2_METADATA_USER"
@@ -184,14 +179,12 @@ EOF
       steps {
         sh '''
           set +x
-          export ORACLE_HOME="/u01/oracle/product/12.1.0"
           export PATH="$PATH:${ORACLE_HOME}/bin"
           export ORACLE_SID="$sid"
           sqlplus ${I2B2_PM_USER}/${I2B2_PM_PASS} @i2b2_on_PCORnet/update_pm_ora.sql "$I2B2_PM_USER"
         '''
         sh '''
           set +x
-          export ORACLE_HOME="/u01/oracle/product/12.1.0"
           export PATH="$PATH:${ORACLE_HOME}/bin"
           export ORACLE_SID="$sid"
           sqlplus ${I2B2_HIVE_USER}/${I2B2_HIVE_PASS} @i2b2_on_PCORnet/update_hive_ora.sql "$I2B2_HIVE_USER"
@@ -203,7 +196,6 @@ EOF
       steps {
         sh '''
           set +x
-          export ORACLE_HOME="/u01/oracle/product/12.1.0"
           export PATH="$PATH:${ORACLE_HOME}/bin"
           export ORACLE_SID="$sid"
           sqlplus ${I2B2_DATA_USER}/${I2B2_DATA_PASS} @i2b2_on_PCORnet/concept_activate_ora.sql "$I2B2_METADATA_USER" "$I2B2_DATA_USER"
