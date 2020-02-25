@@ -1,5 +1,6 @@
 /*
   requires the following environment variables:
+  - BUILD_NODE
   - sid
   - ORACLE_HOME
   - PCORNET_CDM_PASS
@@ -19,7 +20,7 @@
 
 pipeline {
   agent {
-    label '4d19b905d9d8fb4ba7c7e531b8bf198e'
+    label "${BUILD_NODE}"
   }
 
   stages {
