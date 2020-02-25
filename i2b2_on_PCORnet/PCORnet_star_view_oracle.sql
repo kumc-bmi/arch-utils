@@ -1,24 +1,24 @@
-DEFINE source_schema = &1;
-DEFINE target_schema = &2;
+DEFINE cdm_schema = &1;
+DEFINE i2b2_data = &2;
 
 -- create view select grant must be in place
---grant create view to &target_schema ;
---GRANT SELECT on &source_schema..diagnosis to &target_schema ;
---GRANT SELECT on &source_schema..enrollment to &target_schema ;
---GRANT SELECT on &source_schema..lab_result_cm to &target_schema ;
---GRANT SELECT on &source_schema..prescribing to &target_schema ;
---GRANT SELECT on &source_schema..procedures to &target_schema ;
---GRANT SELECT on &source_schema..demographic to &target_schema ;
---GRANT SELECT on &source_schema..encounter to &target_schema ;
---GRANT SELECT on &source_schema..vital to &target_schema ;
+--grant create view to &i2b2_data ;
+--GRANT SELECT on &cdm_schema..diagnosis to &i2b2_data ;
+--GRANT SELECT on &cdm_schema..enrollment to &i2b2_data ;
+--GRANT SELECT on &cdm_schema..lab_result_cm to &i2b2_data ;
+--GRANT SELECT on &cdm_schema..prescribing to &i2b2_data ;
+--GRANT SELECT on &cdm_schema..procedures to &i2b2_data ;
+--GRANT SELECT on &cdm_schema..demographic to &i2b2_data ;
+--GRANT SELECT on &cdm_schema..encounter to &i2b2_data ;
+--GRANT SELECT on &cdm_schema..vital to &i2b2_data ;
 
 -- drop existing objects
 whenever sqlerror continue;
-drop table &target_schema..PATIENT_DIMENSION;
-drop table &target_schema..VISIT_DIMENSION;
+drop table &i2b2_data..PATIENT_DIMENSION;
+drop table &i2b2_data..VISIT_DIMENSION;
 whenever sqlerror exit sql.sqlcode;
 
-CREATE OR REPLACE VIEW &target_schema..multifact_diagnosis_view (
+CREATE OR REPLACE VIEW &i2b2_data..multifact_diagnosis_view (
   patient_num,
   concept_cd,
   encounter_num,
@@ -68,9 +68,9 @@ AS SELECT
   cast(null as timestamp),
   cast(null as timestamp),
   cast(null as NUMBER(38,0))
-FROM &source_schema..diagnosis;
+FROM &cdm_schema..diagnosis;
 
-CREATE OR REPLACE VIEW &target_schema..MULTIFACT_ENROLLMENT_VIEW (
+CREATE OR REPLACE VIEW &i2b2_data..MULTIFACT_ENROLLMENT_VIEW (
   patient_num,
   concept_cd,
   encounter_num,
@@ -117,9 +117,9 @@ AS SELECT
   cast(null as timestamp),
   cast(null as timestamp),
   cast(null as NUMBER(38,0))
-FROM &source_schema..ENROLLMENT;
+FROM &cdm_schema..ENROLLMENT;
 
-CREATE OR REPLACE VIEW &target_schema..MULTIFACT_LABRESULTS_VIEW (
+CREATE OR REPLACE VIEW &i2b2_data..MULTIFACT_LABRESULTS_VIEW (
   patient_num,
   concept_cd,
   encounter_num,
@@ -172,9 +172,9 @@ AS SELECT
   cast(null as timestamp),
   cast(null as timestamp),
   cast(null as NUMBER(38,0))
-FROM &source_schema..lab_result_cm;
+FROM &cdm_schema..lab_result_cm;
 
-CREATE OR REPLACE VIEW &target_schema..MULTIFACT_PRESCRIBING_VIEW (
+CREATE OR REPLACE VIEW &i2b2_data..MULTIFACT_PRESCRIBING_VIEW (
   patient_num,
   concept_cd,
   encounter_num,
@@ -221,9 +221,9 @@ AS SELECT
   cast(null as timestamp),
   cast(null as timestamp),
   cast(null as NUMBER(38,0))
-FROM &source_schema..prescribing;
+FROM &cdm_schema..prescribing;
 
-CREATE OR REPLACE VIEW &target_schema..MULTIFACT_PROCEDURE_VIEW (
+CREATE OR REPLACE VIEW &i2b2_data..MULTIFACT_PROCEDURE_VIEW (
   patient_num,
   concept_cd,
   encounter_num,
@@ -274,9 +274,9 @@ AS SELECT
   cast(null as timestamp),
   cast(null as timestamp),
   cast(null as NUMBER(38,0))
-FROM &source_schema..procedures;
+FROM &cdm_schema..procedures;
 
-CREATE OR REPLACE VIEW &target_schema..MULTIFACT_VITAL_VIEW (
+CREATE OR REPLACE VIEW &i2b2_data..MULTIFACT_VITAL_VIEW (
   patient_num,
   concept_cd,
   encounter_num,
@@ -323,9 +323,9 @@ AS SELECT
   cast(null as timestamp),
   cast(null as timestamp),
   cast(null as NUMBER(38,0))
-FROM &source_schema..vital;
+FROM &cdm_schema..vital;
 
-CREATE OR REPLACE VIEW &target_schema..PATIENT_DIMENSION (
+CREATE OR REPLACE VIEW &i2b2_data..PATIENT_DIMENSION (
   patient_num,
   vital_status_cd,
   birth_date,
@@ -366,9 +366,9 @@ AS SELECT
   cast(null as timestamp), --import_date
   cast(null as varchar(100)),
   cast(null as NUMBER(38,0))
-FROM &source_schema..demographic;
+FROM &cdm_schema..demographic;
 
-CREATE OR REPLACE VIEW &target_schema..VISIT_DIMENSION (
+CREATE OR REPLACE VIEW &i2b2_data..VISIT_DIMENSION (
   patient_num,
   encounter_num,
   active_status_cd,
@@ -415,4 +415,4 @@ AS SELECT
   providerid,
   facilityid,
   providerid
-FROM &source_schema..encounter;
+FROM &cdm_schema..encounter;
