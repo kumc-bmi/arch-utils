@@ -1,4 +1,6 @@
 DEFINE hive_schema = &1;
+DEFINE i2b2_data = &2;
+DEFINE i2b2_metadata = &3;
 
 whenever sqlerror continue;
 delete from &hive_schema..crc_db_lookup where
@@ -18,7 +20,7 @@ insert into &hive_schema..crc_db_lookup (
   'i2b2demo',
   '/PCORI/',
   '@',
-  'pcoridata',
+  '&i2b2_data',
   'java:/QueryToolPCORIDS',
   'ORACLE',
   'PCORnet CDM'
@@ -44,7 +46,7 @@ insert into &hive_schema..ont_db_lookup (
   'i2b2demo',
   'PCORI/',
   '@',
-  'pcorimetadata',
+  '&i2b2_metadata',
   'java:/OntologyPCORIDS',
   'ORACLE',
   'PCORnet CDM'
